@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  rsd-agent:
+    build: .
+    container_name: rsd-analysis-agent
+    restart: unless-stopped
+    
+    # Environment variables (override in .env.docker)
+    env_file: .env.docker
+    
+    # Volume mounts
+    volumes:
+      # Project documents (read-only)
+      - ${PROJECT_DOCS_PATH}:/app/project_documents:ro
+      
+      # Persistent vector database
+      - rsd_vector_db:/app/vector_db
+      
+      # Downloaded attachments
+      - rsd_downloads:/app/downloads
+      
+      # Gmail credentials (important: keep secure)
+      - ./credentials.json:/app/credentials.json:ro
+      - ./token.json:/app/token.json
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  rsd_vector_db:
+    driver: local
+  rsd_downloads:
+    driver: local
