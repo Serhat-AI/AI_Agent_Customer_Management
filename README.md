@@ -341,6 +341,5 @@ Internal use only
 
 ---
 
-**Created for:** [Your Consulting Company Name]  
-**Version:** 1.0  
-**Last Updated:** 2024
+Created by: Serhat Yilmaz - AI Automation   
+Version: 1.0  
